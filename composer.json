@@ -3,6 +3,7 @@
     "description": "A great unified error handler for PHP",
     "type": "library",
     "require": {
+        "php": "^8.0",
         "symfony/error-handler": "^7.0",
         "symfony/http-foundation": "^7.0"
     },
