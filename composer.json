@@ -3,11 +3,13 @@
     "description": "A great unified error handler for PHP",
     "type": "library",
     "require": {
-        "php": "^8.0",
-        "symfony/error-handler": "^7.0",
-        "symfony/http-foundation": "^7.0"
+        "php": "^8.0"
     },
     "require-dev": {
+        "filp/whoops": "^2.15",
+        "spatie/ignition": "^1.15",
+        "symfony/error-handler": "^7.0",
+        "symfony/http-foundation": "^7.0",
         "symfony/var-dumper": "^7.0",
         "laravel/framework": "^11.0"
     },
@@ -15,7 +17,10 @@
     "autoload": {
         "psr-4": {
             "ConfettiCode\\ErrorHandler\\": "src/"
-        }
+        },
+        "files": [
+            "functions.php"
+        ]
     },
     "authors": [
         {

@@ -19,16 +19,17 @@ function raise_exception(): void
     ExceptionRaiser::raise();
 }
 
+
 try {
     raise_exception();
 } catch (Throwable $e) {
     $decorator = new Decorator($e);
 
-    $decorator->getStackTrace();
+    $decorator->getStackFrames();
 
     ob_start();
     require __DIR__.'/resources/views/error.php';
-    $output = ob_get_contents();
+    $output = ob_get_clean();
     ob_end_flush();
 
     echo $output;

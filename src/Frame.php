@@ -2,7 +2,7 @@
 
 namespace ConfettiCode\ErrorHandler;
 
-class Trace
+class Frame
 {
     protected string $file;
     protected int $line;
@@ -48,5 +48,15 @@ class Trace
         $length = 8 * 2 + 1;
 
         return implode('', array_slice($contents, $start, $length));
+    }
+
+    public function getStartLine(): int
+    {
+        return max($this->getLine() - 5, 1);
+    }
+
+    public function getEndLine(): int
+    {
+        return $this->getStartLine() + (8 * 2 + 1);
     }
 }

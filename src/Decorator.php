@@ -54,12 +54,12 @@ class Decorator
     }
 
     /**
-     * @return Trace[]
+     * @return Frame[]
      */
-    public function getStackTrace()
+    public function getStackFrames()
     {
         return array_map(function (array $trace) {
-            return new Trace($trace);
+            return new Frame($trace);
         }, $this->e->getTrace());
     }
 }
