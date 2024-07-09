@@ -19,7 +19,6 @@ function raise_exception(): void
     ExceptionRaiser::raise();
 }
 
-
 try {
     raise_exception();
 } catch (Throwable $e) {

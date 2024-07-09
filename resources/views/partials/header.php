@@ -7,7 +7,7 @@
                 <span class="md:hidden">
                     BindingResolutionException                </span>
             </div>
-            <div class="mt-4 text-lg font-semibold text-gray-900 break-words dark:text-white lg:text-2xl">
+            <div class="mt-4 text-lg font-semibold text-gray-900 break-words dark:text-white lg:text-xl">
                 Target class [unknown] does not exist.            </div>
         </div>
 
