@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Error</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <?php echo \ConfettiCode\ErrorHandler\Helper::styleTag(); ?>
 </head>
 <body class="bg-gray-200/80 font-sans antialiased dark:bg-gray-950/95">
 <div class="mx-auto lg:px-8">
@@ -19,10 +18,7 @@
     </main>
 </div>
 
-<script src="//unpkg.com/alpinejs" defer></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<?php echo \ConfettiCode\ErrorHandler\Helper::scriptTag(); ?>
 
 <script>
     hljs.highlightAll();
@@ -53,13 +49,11 @@
         padding-left: 0.5rem !important;
         padding-right: 0.5rem !important;
     }
-    .hljs-ln .hljs-ln-code:hover {
-        background: rgba(242, 95, 95, 0.4);
-    }
 
-    .hljs-ln td[data-line-number="6"] {
-        background: rgba(242, 95, 95, 0.4);
-    }
+    /* TODO: Fix hover the whole line. */
+    /*.hljs-ln .hljs-ln-code:hover {*/
+    /*    background: rgba(242, 95, 95, 0.4);*/
+    /*}*/
 
     <?php foreach ($decorator->getStackFrames() as $index => $frame): ?>
         #frame-<?php echo $index ?> .hljs-ln td[data-line-number="<?php echo $frame->getLine(); ?>"] {

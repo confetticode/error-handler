@@ -1,5 +1,5 @@
 <?php /** @var \ConfettiCode\ErrorHandler\Decorator $decorator */ ?>
-<section class="flex flex-col p-6 sm:p-12 bg-white dark:bg-gray-900/80 text-gray-900 dark:text-gray-100 rounded-lg default:col-span-full default:lg:col-span-6 default:row-span-1 dark:ring-1 dark:ring-gray-800 shadow-xl mt-6 overflow-x-auto">
+<section class="flex flex-col p-6 sm:p-12 bg-white dark:bg-gray-900/80 text-gray-900 dark:text-gray-100 default:col-span-full default:lg:col-span-6 default:row-span-1 dark:ring-1 dark:ring-gray-800 shadow-xl mt-6 overflow-x-auto">
     <div x-data="{
             includeVendorFrames: false,
             index: 0,
@@ -41,7 +41,7 @@
                             <button class="w-full text-left dark:border-gray-900" x-show="true"  x-on:click="index = <?php echo $index; ?>">
                                 <div x-bind:class="
                             index === <?php echo $index; ?>
-                                ? 'rounded-r-md bg-gray-100 dark:bg-gray-800 border-l dark:border dark:border-gray-700 border-l-red-500 dark:border-l-red-500'
+                                ? 'bg-gray-100 dark:bg-gray-800 border-l dark:border dark:border-gray-700 border-l-red-500 dark:border-l-red-500'
                                 : 'hover:bg-gray-100/75 dark:hover:bg-gray-800/75'
                         ">
                                     <div class="scrollbar-hidden overflow-x-auto border-l-2 border-transparent p-2">
@@ -67,9 +67,11 @@
                     <div class="mb-3">
                         <div class="text-md text-gray-500 dark:text-gray-400">
                             <div class="mb-2">
-                                <span class="wrap text-gray-900 dark:text-gray-300">C:\Users\QuynhNX\Code\error-handler\vendor\laravel\framework\src\Illuminate\Container\Container.php</span>
+                                <span class="wrap text-gray-900 dark:text-gray-300">
+                                    <?php echo e($frame->getFile()); ?>
+                                </span>
 
-                                <span class="font-mono text-xs">:815</span>
+                                <span class="font-mono">:<?php echo e($frame->getLine()); ?></span>
                             </div>
                         </div>
                     </div>
