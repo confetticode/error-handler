@@ -6,6 +6,7 @@ use ErrorException;
 use Exception;
 use Spatie\Ignition\Ignition as IgnitionHandler;
 use Symfony\Component\ErrorHandler\Error\FatalError;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Ignition
@@ -18,12 +19,22 @@ class Ignition
     public static ?string $reservedMemory;
 
     /**
+     * The debug mode.
+     */
+    protected bool $debug = false;
+
+    public function __construct()
+    {
+        if (!isset(self::$reservedMemory)) {
+            static::$reservedMemory = str_repeat('x', 32768);
+        }
+    }
+
+    /**
      * Set up the error, exception and shutdown handlers.
      */
     public static function setUp(): static
     {
-        static::$reservedMemory = str_repeat('x', 32768);
-
         error_reporting(E_ALL);
 
         $ignition = new Ignition();
@@ -112,9 +123,7 @@ class Ignition
 
     protected function renderHttpResponse(Throwable $e): void
     {
-        $handler = new IgnitionHandler;
-
-        $handler->handleException($e);
+        $this->render($e)->send();
     }
 
     /**
@@ -143,5 +152,36 @@ class Ignition
     protected function fatalErrorFromPhpError(array $error, ?int $traceOffset = null): FatalError
     {
         return new FatalError($error['message'], 0, $error, $traceOffset);
+    }
+
+    public function render(\Throwable $e): Response
+    {
+        $statusCode = is_callable([$e, 'getStatusCode']) ? $e->getStatusCode() : 500;
+        $statusText = is_callable([$e, 'getStatusText']) ? $e->getStatusText() : 'Internal Server Error';
+
+        if ($this->debug) {
+            $handler = new IgnitionHandler;
+
+            ob_start();
+            $handler->handleException($e);
+            $content = ob_get_clean();
+            ob_end_clean();
+        } else {
+            $content = $statusText;
+        }
+
+        return new Response($content, $statusCode);
+    }
+
+    public function setDebug(bool $debug): self
+    {
+        $this->debug = $debug;
+
+        return $this;
+    }
+
+    public function isDebug(): bool
+    {
+        return $this->debug;
     }
 }

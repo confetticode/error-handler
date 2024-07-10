@@ -13,7 +13,8 @@
     "require": {
         "php": "^8.0",
         "spatie/ignition": "^1.15",
-        "symfony/error-handler": "^7.0"
+        "symfony/error-handler": "^7.0",
+        "symfony/http-foundation": "^7.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^7.0"
@@ -21,6 +22,11 @@
     "autoload": {
         "psr-4": {
             "Confetti\\Ignition\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Confetti\\Ignition\\": "tests/"
         }
     },
     "extra": {
