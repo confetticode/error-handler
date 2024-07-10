@@ -2,10 +2,12 @@
 
 namespace Confetti\Ignition;
 
+use Confetti\Ignition\Displayers\Displayer;
+use Confetti\Ignition\Displayers\SpatieDisplayer;
 use ErrorException;
 use Exception;
-use Spatie\Ignition\Ignition as IgnitionHandler;
 use Symfony\Component\ErrorHandler\Error\FatalError;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -154,23 +156,15 @@ class Ignition
         return new FatalError($error['message'], 0, $error, $traceOffset);
     }
 
-    public function render(\Throwable $e): Response
+    public function render(\Throwable $e, ?Request $request = null): Response
     {
-        $statusCode = is_callable([$e, 'getStatusCode']) ? $e->getStatusCode() : 500;
-        $statusText = is_callable([$e, 'getStatusText']) ? $e->getStatusText() : 'Internal Server Error';
-
         if ($this->debug) {
-            $handler = new IgnitionHandler;
-
-            ob_start();
-            $handler->handleException($e);
-            $content = ob_get_clean();
-            ob_end_clean();
+            $displayer = new SpatieDisplayer();
         } else {
-            $content = $statusText;
+            $displayer = new Displayer();
         }
 
-        return new Response($content, $statusCode);
+        return $displayer->render($e, $request ?: Request::createFromGlobals());
     }
 
     public function setDebug(bool $debug): self
