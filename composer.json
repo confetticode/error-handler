@@ -1,29 +1,35 @@
 {
     "name": "confetti/ignition",
     "description": "A great unified error handler for PHP",
-    "type": "library",
-    "require": {
-        "php": "^8.0",
-        "spatie/ignition": "^1.15",
-        "symfony/error-handler": "7.0"
-    },
-    "require-dev": {
-        "symfony/var-dumper": "^7.0"
-    },
+    "keywords": ["error-handler"],
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Confetti\\Ignition\\": "src/"
-        }
-    },
+    "type": "library",
     "authors": [
         {
             "name": "Quynh Nguyen",
             "email": "seriquynh@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.0",
+        "spatie/ignition": "^1.15",
+        "symfony/error-handler": "^7.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Confetti\\Ignition\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev"
 }
