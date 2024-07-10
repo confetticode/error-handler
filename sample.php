@@ -1,35 +1,7 @@
 <?php
 
-use ConfettiCode\ErrorHandler\Decorator;
-use Illuminate\Container\Container;
-
 require __DIR__.'/vendor/autoload.php';
 
-class ExceptionRaiser
-{
-    public static function raise(): void
-    {
-        Container::getInstance()->make('unknown');
-    }
+$ignition = \Confetti\Ignition\Ignition::setUp();
 
-}
-
-function raise_exception(): void
-{
-    ExceptionRaiser::raise();
-}
-
-try {
-    raise_exception();
-} catch (Throwable $e) {
-    $decorator = new Decorator($e);
-
-    $decorator->getStackFrames();
-
-    ob_start();
-    require __DIR__.'/resources/views/error.php';
-    $output = ob_get_clean();
-    ob_end_flush();
-
-    echo $output;
-}
+throw new \Exception('Whoops! Something went wrong.');
