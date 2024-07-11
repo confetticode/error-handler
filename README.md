@@ -5,5 +5,13 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-$ignition = \Confetti\Ignition\Ignition::setUp();
+$handler = new \Confetti\ErrorHandler\ErrorHandler();
+
+$handler->setDisplayer(
+    new \Confetti\ErrorHandler\IgnitionDisplayer
+);
+
+$handler->register();
+
+new UndefinedClass;
 ```

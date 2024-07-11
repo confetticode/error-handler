@@ -1,2 +1,4 @@
 vendor/
 .gitignore
+.phpunit.cache
+phpunit.xml

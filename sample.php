@@ -2,8 +2,12 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-$ignition = \Confetti\Ignition\Ignition::setUp();
+$errors = new \Confetti\ErrorHandler\ErrorHandler();
 
-$ignition->setDebug(true);
+$errors->setDisplayer(
+    new \Confetti\ErrorHandler\IgnitionDisplayer
+);
 
-throw new \Exception('Whoops! Something went wrong.');
+$errors->register();
+
+new UndefinedClass;

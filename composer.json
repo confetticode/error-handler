@@ -1,5 +1,5 @@
 {
-    "name": "confetti/ignition",
+    "name": "confetti/error-handler",
     "description": "A great unified error handler for PHP",
     "keywords": ["error-handler"],
     "license": "MIT",
@@ -12,22 +12,26 @@
     ],
     "require": {
         "php": "^8.0",
-        "spatie/ignition": "^1.15",
         "symfony/error-handler": "^7.0",
         "symfony/http-foundation": "^7.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "10.0",
+        "spatie/ignition": "^1.15",
         "symfony/var-dumper": "^7.0"
     },
     "autoload": {
         "psr-4": {
-            "Confetti\\Ignition\\": "src/"
+            "Confetti\\ErrorHandler\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Confetti\\Ignition\\": "tests/"
+            "Tests\\Confetti\\ErrorHandler\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "phpunit tests/ --colors=always"
     },
     "extra": {
         "branch-alias": {

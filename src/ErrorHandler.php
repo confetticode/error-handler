@@ -1,9 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Confetti\Ignition;
+namespace Confetti\ErrorHandler;
 
-use Confetti\Ignition\Displayers\Displayer;
-use Confetti\Ignition\Displayers\SpatieDisplayer;
 use ErrorException;
 use Exception;
 use Symfony\Component\ErrorHandler\Error\FatalError;
@@ -11,43 +9,56 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class Ignition
+class ErrorHandler
 {
     /**
      * Reserved memory so that errors can be displayed properly on memory exhaustion.
      *
      * @var string|null
      */
-    public static ?string $reservedMemory;
+    public static ?string $reservedMemory = null;
 
-    /**
-     * The debug mode.
-     */
-    protected bool $debug = false;
+    protected DisplayerInterface $displayer;
 
-    public function __construct()
+    public function __construct(?DisplayerInterface $displayer = null)
     {
         if (!isset(self::$reservedMemory)) {
             static::$reservedMemory = str_repeat('x', 32768);
         }
+
+        if (!$displayer) {
+            $displayer = new SymfonyDisplayer();
+        }
+
+        $this->displayer = $displayer;
+    }
+
+    public function getDisplayer(): DisplayerInterface
+    {
+        return $this->displayer;
+    }
+
+    public function setDisplayer(DisplayerInterface $displayer): self
+    {
+        $this->displayer = $displayer;
+
+        return $this;
     }
 
     /**
      * Set up the error, exception and shutdown handlers.
      */
-    public static function setUp(): static
+    public function register(): self
     {
         error_reporting(E_ALL);
 
-        $ignition = new Ignition();
+        set_error_handler([$this, 'handleError']);
 
-        set_error_handler([$ignition, 'handleError']);
+        set_exception_handler([$this, 'handleException']);
 
-        set_exception_handler([$ignition, 'handleException']);
+        register_shutdown_function([$this, 'handleShutdown']);
 
-        register_shutdown_function([$ignition, 'handleShutdown']);
-
-        return $ignition;
+        return $this;
     }
 
     /**
@@ -158,24 +169,6 @@ class Ignition
 
     public function render(\Throwable $e, ?Request $request = null): Response
     {
-        if ($this->debug) {
-            $displayer = new SpatieDisplayer();
-        } else {
-            $displayer = new Displayer();
-        }
-
-        return $displayer->render($e, $request ?: Request::createFromGlobals());
-    }
-
-    public function setDebug(bool $debug): self
-    {
-        $this->debug = $debug;
-
-        return $this;
-    }
-
-    public function isDebug(): bool
-    {
-        return $this->debug;
+        return $this->displayer->render($e, $request ?: Request::createFromGlobals());
     }
 }
