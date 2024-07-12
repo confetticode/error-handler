@@ -1,4 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the ConfettiCode project.
+ *
+ * (c) ConfettiCode
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace ConfettiCode\ErrorHandler;
 
@@ -13,8 +24,6 @@ class ErrorHandler
 {
     /**
      * Reserved memory so that errors can be displayed properly on memory exhaustion.
-     *
-     * @var string|null
      */
     public static ?string $reservedMemory = null;
 
@@ -22,11 +31,11 @@ class ErrorHandler
 
     public function __construct(?DisplayerInterface $displayer = null)
     {
-        if (!isset(self::$reservedMemory)) {
+        if (! isset(self::$reservedMemory)) {
             static::$reservedMemory = str_repeat('x', 32768);
         }
 
-        if (!$displayer) {
+        if (! $displayer) {
             $displayer = new HtmlDisplayer();
         }
 
@@ -80,7 +89,7 @@ class ErrorHandler
      */
     protected function isDeprecation(int $level): bool
     {
-        return in_array($level, [E_DEPRECATED, E_USER_DEPRECATED], true);
+        return \in_array($level, [E_DEPRECATED, E_USER_DEPRECATED], true);
     }
 
     /**
@@ -126,7 +135,7 @@ class ErrorHandler
 
     protected function runningInConsole(): bool
     {
-        return in_array(PHP_SAPI, ['cli', 'phpdbg'], true);
+        return \in_array(PHP_SAPI, ['cli', 'phpdbg'], true);
     }
 
     protected function renderForConsole(Throwable $e): void
@@ -146,7 +155,7 @@ class ErrorHandler
     {
         static::$reservedMemory = null;
 
-        if (! is_null($error = error_get_last()) && $this->isFatal($error['type'])) {
+        if (! \is_null($error = error_get_last()) && $this->isFatal($error['type'])) {
             $this->handleException($this->fatalErrorFromPhpError($error, 0));
         }
     }
@@ -156,7 +165,7 @@ class ErrorHandler
      */
     protected function isFatal(int $type): bool
     {
-        return in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE], true);
+        return \in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE], true);
     }
 
     /**
