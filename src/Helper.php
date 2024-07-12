@@ -16,4 +16,9 @@ class Helper
     {
         return is_callable([$e, 'getHeaders']) ? $e->getHeaders() : [];
     }
+
+    public static function getHttpStatusText(Throwable $e): string
+    {
+        return Response::$statusTexts[static::getHttpStatusCode($e)] ?? Response::$statusTexts[Response::HTTP_INTERNAL_SERVER_ERROR];
+    }
 }

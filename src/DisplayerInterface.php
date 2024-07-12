@@ -3,15 +3,14 @@
 namespace ConfettiCode\ErrorHandler;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 interface DisplayerInterface
 {
     /**
-     * Render a response for the given throwable instance and request.
+     * Render content as a string for the given throwable and request.
      */
-    public function render(Throwable $e, Request $request): Response;
+    public function render(Throwable $e, Request $request): string;
 
 //    public function display(\Throwable $e, Request $request): void;
 }

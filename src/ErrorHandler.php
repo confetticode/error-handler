@@ -27,7 +27,7 @@ class ErrorHandler
         }
 
         if (!$displayer) {
-            $displayer = new SymfonyDisplayer();
+            $displayer = new HtmlDisplayer();
         }
 
         $this->displayer = $displayer;
@@ -169,6 +169,10 @@ class ErrorHandler
 
     public function render(\Throwable $e, ?Request $request = null): Response
     {
-        return $this->displayer->render($e, $request ?: Request::createFromGlobals());
+        $statusCode = Helper::getHttpStatusCode($e);
+        $headers = Helper::getHttpHeaders($e);
+        $content = $this->displayer->render($e, $request ?: Request::createFromGlobals());
+
+        return new Response($content, $statusCode, $headers);
     }
 }
