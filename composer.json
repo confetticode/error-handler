@@ -1,5 +1,5 @@
 {
-    "name": "confetti/error-handler",
+    "name": "confetticode/error-handler",
     "description": "A great unified error handler for PHP",
     "keywords": ["error-handler"],
     "license": "MIT",
@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Confetti\\ErrorHandler\\": "src/"
+            "ConfettiCode\\ErrorHandler\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Confetti\\ErrorHandler\\": "tests/"
+            "Tests\\ConfettiCode\\ErrorHandler\\": "tests/"
         }
     },
     "scripts": {

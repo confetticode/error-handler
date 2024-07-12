@@ -1,6 +1,6 @@
 <?php
 
-namespace Confetti\ErrorHandler;
+namespace ConfettiCode\ErrorHandler;
 
 use Spatie\ErrorSolutions\Solutions\SolutionTransformer;
 use Spatie\FlareClient\Context\RequestContextProvider;

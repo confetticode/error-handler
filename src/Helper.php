@@ -1,6 +1,6 @@
 <?php
 
-namespace Confetti\ErrorHandler;
+namespace ConfettiCode\ErrorHandler;
 
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Confetti\ErrorHandler;
+namespace Tests\ConfettiCode\ErrorHandler;
 
-use Confetti\ErrorHandler\ErrorHandler;
-use Confetti\ErrorHandler\SymfonyDisplayer;
+use ConfettiCode\ErrorHandler\ErrorHandler;
+use ConfettiCode\ErrorHandler\HtmlDisplayer;
 use PHPUnit\Framework\TestCase;
 
 class ErrorHandlerTest extends TestCase
@@ -17,10 +17,10 @@ class ErrorHandlerTest extends TestCase
         self::assertNotNull(ErrorHandler::$reservedMemory);
     }
 
-    public function test_it_sets_symfony_displayer_by_default(): void
+    public function test_it_sets_html_displayer_by_default(): void
     {
         $errors = new ErrorHandler();
 
-        self::assertInstanceOf(SymfonyDisplayer::class, $errors->getDisplayer());
+        self::assertInstanceOf(HtmlDisplayer::class, $errors->getDisplayer());
     }
 }

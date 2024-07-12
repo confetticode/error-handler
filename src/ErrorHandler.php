@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Confetti\ErrorHandler;
+namespace ConfettiCode\ErrorHandler;
 
 use ErrorException;
 use Exception;

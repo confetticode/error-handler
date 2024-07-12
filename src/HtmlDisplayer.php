@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class SymfonyDisplayer implements DisplayerInterface
+class HtmlDisplayer implements DisplayerInterface
 {
     /**
      * @inheritdoc
@@ -17,7 +17,7 @@ class SymfonyDisplayer implements DisplayerInterface
         $statusCode = Helper::getHttpStatusCode($e);
         $headers = Helper::getHttpHeaders($e);
 
-        $renderer = new HtmlErrorRenderer(true);
+        $renderer = new HtmlErrorRenderer(false);
 
         $content = $renderer->render($e)->getAsString();
 
