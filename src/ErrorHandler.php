@@ -15,6 +15,9 @@ namespace ConfettiCode\ErrorHandler;
 
 use ErrorException;
 use Exception;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +31,7 @@ class ErrorHandler
     public static ?string $reservedMemory = null;
 
     protected DisplayerInterface $displayer;
+    protected ?ReporterInterface $reporter = null;
 
     public function __construct(?DisplayerInterface $displayer = null)
     {
@@ -50,6 +54,18 @@ class ErrorHandler
     public function setDisplayer(DisplayerInterface $displayer): self
     {
         $this->displayer = $displayer;
+
+        return $this;
+    }
+
+    public function getReporter(): ?ReporterInterface
+    {
+        return $this->reporter;
+    }
+
+    public function setReporter(ReporterInterface $reporter): self
+    {
+        $this->reporter = $reporter;
 
         return $this;
     }
@@ -89,15 +105,15 @@ class ErrorHandler
      */
     protected function isDeprecation(int $level): bool
     {
-        return \in_array($level, [E_DEPRECATED, E_USER_DEPRECATED], true);
+        return in_array($level, [E_DEPRECATED, E_USER_DEPRECATED], true);
     }
 
     /**
      * Reports a deprecation to the "deprecations" logger.
      */
-    public function handleDeprecationError(string $message, string $file, int $line, int $level = E_DEPRECATED): void
+    protected function handleDeprecationError(string $message, string $file, int $line, int $level = E_DEPRECATED): void
     {
-        // TODO: To implement later.
+        $this->reportException(new DeprecationException($message, 0, $level, $file, $line));
     }
 
     /**
@@ -130,17 +146,22 @@ class ErrorHandler
 
     protected function reportException(Throwable $e): void
     {
-        // TODO: To implement later.
+        $this->reporter?->report($e);
+    }
+
+    public function report(Throwable $e): void
+    {
+        $this->reportException($e);
     }
 
     protected function runningInConsole(): bool
     {
-        return \in_array(PHP_SAPI, ['cli', 'phpdbg'], true);
+        return in_array(PHP_SAPI, ['cli', 'phpdbg'], true);
     }
 
-    protected function renderForConsole(Throwable $e): void
+    public function renderForConsole(Throwable $e, OutputInterface $output = null): void
     {
-        // TODO: To implement later.
+        (new Application())->renderThrowable($e, $output ?: new ConsoleOutput(OutputInterface::VERBOSITY_DEBUG));
     }
 
     protected function renderHttpResponse(Throwable $e): void
@@ -155,7 +176,7 @@ class ErrorHandler
     {
         static::$reservedMemory = null;
 
-        if (! \is_null($error = error_get_last()) && $this->isFatal($error['type'])) {
+        if (! is_null($error = error_get_last()) && $this->isFatal($error['type'])) {
             $this->handleException($this->fatalErrorFromPhpError($error, 0));
         }
     }
@@ -165,7 +186,7 @@ class ErrorHandler
      */
     protected function isFatal(int $type): bool
     {
-        return \in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE], true);
+        return in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE], true);
     }
 
     /**
@@ -176,7 +197,7 @@ class ErrorHandler
         return new FatalError($error['message'], 0, $error, $traceOffset);
     }
 
-    public function render(\Throwable $e, ?Request $request = null): Response
+    public function render(Throwable $e, ?Request $request = null): Response
     {
         $statusCode = Helper::getHttpStatusCode($e);
         $headers = Helper::getHttpHeaders($e);
