@@ -15,7 +15,7 @@ $errors->setReporter((function () {
         new \Monolog\Handler\StreamHandler(__DIR__.'/log.txt'),
     ]);
 
-    return new \ConfettiCode\ErrorHandler\SimpleReporter($logger);
+    return new \ConfettiCode\ErrorHandler\LogReporter($logger);
 })());
 
 $errors->setDisplayer((function () {

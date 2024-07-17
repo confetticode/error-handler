@@ -32,4 +32,22 @@ $errors->setDisplayer(new \ConfetiCode\ErrorHandler\SymfonyDisplayer);
 $errors->setDisplayer(new \ConfetiCode\ErrorHandler\IgnitionDisplayer);
 ```
 
+Integrate with `monolog/monolog`, eg: writing logs into files.
+
+```bash
+composer require monolog/monolog
+```
+
+```php
+$logger = new \Monolog\Logger('testing');
+
+$logger->setHandlers([
+    new \Monolog\Handler\StreamHandler(__DIR__.'/log.txt'),
+]);
+
+$reporter = new \ConfettiCode\ErrorHandler\LogReporter($logger);
+
+$errors->setReporter($reporter);
+```
+
 You may try out [error.php](./sample/error.php) file for a quick overview.

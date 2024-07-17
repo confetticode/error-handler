@@ -16,7 +16,7 @@ namespace ConfettiCode\ErrorHandler;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class SimpleReporter implements ReporterInterface
+class LogReporter implements ReporterInterface
 {
     public function __construct(private LoggerInterface $logger)
     {
