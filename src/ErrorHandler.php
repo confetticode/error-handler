@@ -134,13 +134,13 @@ class ErrorHandler
         }
 
         if ($this->runningInConsole()) {
-            $this->renderForConsole($e);
+            $this->displayForConsole($e);
 
             if ($exceptionHandlerFailed ?? false) {
                 exit(1);
             }
         } else {
-            $this->renderHttpResponse($e);
+            $this->displayHttpResponse($e);
         }
     }
 
@@ -159,12 +159,12 @@ class ErrorHandler
         return in_array(PHP_SAPI, ['cli', 'phpdbg'], true);
     }
 
-    public function renderForConsole(Throwable $e, OutputInterface $output = null): void
+    public function displayForConsole(Throwable $e, OutputInterface $output = null): void
     {
         (new Application())->renderThrowable($e, $output ?: new ConsoleOutput(OutputInterface::VERBOSITY_DEBUG));
     }
 
-    protected function renderHttpResponse(Throwable $e): void
+    protected function displayHttpResponse(Throwable $e): void
     {
         $this->render($e)->send();
     }
@@ -197,6 +197,9 @@ class ErrorHandler
         return new FatalError($error['message'], 0, $error, $traceOffset);
     }
 
+    /**
+     * Render the given throwable into a Symfony Response.
+     */
     public function render(Throwable $e, ?Request $request = null): Response
     {
         $statusCode = Helper::getHttpStatusCode($e);

@@ -22,7 +22,7 @@ class SymfonyDisplayer implements DisplayerInterface
     /**
      * @inheritdoc
      */
-    public function render(Throwable $e, Request $request): string
+    public function render(Throwable $e, ?Request $request = null): string
     {
         $renderer = new HtmlErrorRenderer(true);
 

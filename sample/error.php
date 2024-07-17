@@ -31,7 +31,7 @@ $errors->setDisplayer((function () {
         return new \ConfettiCode\ErrorHandler\IgnitionDisplayer;
     }
 
-    return new \ConfettiCode\ErrorHandler\IgnitionDisplayer;
+    return new \ConfettiCode\ErrorHandler\HtmlDisplayer;
 })());
 
 $errors->register();

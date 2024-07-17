@@ -28,7 +28,7 @@ class IgnitionDisplayer implements DisplayerInterface
     /**
      * @inheritdoc
      */
-    public function render(Throwable $e, Request $request): string
+    public function render(Throwable $e, ?Request $request = null): string
     {
         $report = Report::createForThrowable($e, new RequestContextProvider($request));
 
