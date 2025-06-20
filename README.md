@@ -51,3 +51,7 @@ $errors->setReporter($reporter);
 ```
 
 You may try out [error.php](./sample/error.php) file for a quick overview.
+
+## License
+
+The `confetticode/error-handler` package is licensed under the [MIT license](./LICENSE.md).
